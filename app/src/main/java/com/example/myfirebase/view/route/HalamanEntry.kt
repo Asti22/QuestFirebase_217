@@ -7,14 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -22,26 +15,32 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myfirebase.modeldata.DetailSiswa
 import com.example.myfirebase.modeldata.UIStateSiswa
 import com.example.myfirebase.R
+import com.example.myfirebase.viewmodel.EntryViewModel
+import com.example.myfirebase.viewmodel.PenyediaViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EntrySiswaScreen(
     navigateBack: () -> Unit,
+    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: EntryViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             SiswaTopAppBar(
                 title = stringResource(DestinasiEntry.titleRes),
                 canNavigateBack = true,
-                navigateUp = navigateBack,
+                navigateUp = onNavigateUp,
                 scrollBehavior = scrollBehavior
             )
         }
@@ -50,9 +49,15 @@ fun EntrySiswaScreen(
             uiStateSiswa = viewModel.uiStateSiswa,
             onSiswaValueChange = viewModel::updateUiState,
             onSaveClick = {
+                // PERBAIKAN: Gunakan coroutine dengan try-catch agar tidak langsung keluar/crash
                 coroutineScope.launch {
-                    viewModel.addSiswa()
-                    navigateBack()
+                    try {
+                        viewModel.addSiswa() // Menunggu proses Firebase selesai
+                        navigateBack()       // Hanya kembali jika berhasil
+                    } catch (e: Exception) {
+                        // Jika error (misal internet mati), aplikasi tidak akan crash
+                        println("Error saat simpan: ${e.message}")
+                    }
                 }
             },
             modifier = Modifier
@@ -81,6 +86,7 @@ fun EntrySiswaBody(
         )
         Button(
             onClick = onSaveClick,
+            // Tombol hanya aktif jika input valid (nama, alamat, telpon tidak kosong)
             enabled = uiStateSiswa.isEntryValid,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
