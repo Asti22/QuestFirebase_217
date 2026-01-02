@@ -1,21 +1,35 @@
 package com.example.myfirebase.modeldata
 
 data class Siswa(
-    val id: Long = 0,
+    // Diubah dari Long ke String agar cocok dengan document.id Firestore
+    val id: String = "",
     val nama: String = "",
     val alamat: String = "",
     val telpon: String = ""
 )
 
 data class DetailSiswa(
-    val id: Long = 0,
+    // Harus String juga agar sinkron dengan class Siswa
+    val id: String = "",
     val nama: String = "",
     val alamat: String = "",
     val telpon: String = ""
 )
 
-fun DetailSiswa.toDataSiswa(): Siswa = Siswa(id, nama, alamat, telpon)
-fun Siswa.toDetailSiswa(): DetailSiswa = DetailSiswa(id, nama, alamat, telpon)
+/* Fungsi pemetaan (Mapper) */
+fun DetailSiswa.toDataSiswa(): Siswa = Siswa(
+    id = id,
+    nama = nama,
+    alamat = alamat,
+    telpon = telpon
+)
+
+fun Siswa.toDetailSiswa(): DetailSiswa = DetailSiswa(
+    id = id,
+    nama = nama,
+    alamat = alamat,
+    telpon = telpon
+)
 
 data class UIStateSiswa(
     val detailSiswa: DetailSiswa = DetailSiswa(),

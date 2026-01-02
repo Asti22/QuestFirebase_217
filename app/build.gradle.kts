@@ -8,6 +8,7 @@ plugins {
 android {
     namespace = "com.example.myfirebase"
     compileSdk = 35
+
     defaultConfig {
         applicationId = "com.example.myfirebase"
         minSdk = 24
@@ -18,49 +19,42 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
     compileOptions {
-        // Disarankan upgrade ke VERSION_17 atau VERSION_21
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        // Harus sinkron dengan compileOptions
         jvmTarget = "17"
     }
     buildFeatures {
-        // Karena kamu pakai Compose, pastikan buildFeatures ini aktif
         compose = true
     }
 }
 
 dependencies {
+    // Core & Google Material
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.google.material)
+
+    // Compose (BOM)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.icons.extended)
+
+    // Navigation & Lifecycle
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.analytics)
-    implementation(libs.coroutines.play.services)
 
-    // Navigation
-    implementation(libs.navigation.compose)
-
-    // ViewModel & Lifecycle
-    implementation(libs.lifecycle.viewmodel.compose)
-    implementation(libs.lifecycle.runtime.compose)
-
+    // Testing
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
