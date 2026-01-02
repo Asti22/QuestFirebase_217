@@ -61,3 +61,28 @@ fun HomeScreen(
         )
     }
 }
+
+@Composable
+fun HomeBody(
+    statusUiSiswa: HomeUiState,
+    onSiswaClick: (Int) -> Unit,
+    retryAction: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        when (statusUiSiswa) {
+            is HomeUiState.Loading -> OnLoading(modifier = modifier)
+            is HomeUiState.Success -> ListSiswaItem(
+                statusUiSiswa.siswa,
+                onSiswaClick = { onSiswaClick(it.id.toInt()) }
+            )
+            is HomeUiState.Error -> OnError(
+                retryAction = retryAction,
+                modifier = modifier.fillMaxSize()
+            )
+        }
+    }
+}
