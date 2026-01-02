@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.myfirebase.R
 import com.example.myfirebase.model.Siswa
+import com.example.myfirebase.modeldata.Siswa
 import com.example.myfirebase.view.route.DestinasiHome
 import com.example.myfirebase.view.route.SiswaTopAppBar
 
@@ -97,3 +98,21 @@ fun OnLoading(modifier: Modifier = Modifier) {
         contentDescription = stringResource(R.string.loading)
     )
 }
+@Composable
+fun ListSiswaItem(
+    listSiswa: List<Siswa>,
+    onSiswaClick: (Siswa) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = modifier) {
+        items(items = listSiswa, key = { it.id }) { person ->
+            CardSiswa(
+                siswa = person,
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.padding_small))
+                    .clickable { onSiswaClick(person) }
+            )
+        }
+    }
+}
+
