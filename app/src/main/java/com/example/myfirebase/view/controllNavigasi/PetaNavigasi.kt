@@ -10,8 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.myfirebase.view.HomeScreen
 // IMPORT DESTINASI DARI PACKAGE .route
-import com.example.myfirebase.view.route.DestinasiDetail
-import com.example.myfirebase.view.route.DestinasiEdit
 import com.example.myfirebase.view.route.DestinasiEntry
 import com.example.myfirebase.view.route.DestinasiHome
 import com.example.myfirebase.view.route.DetailSiswaScreen

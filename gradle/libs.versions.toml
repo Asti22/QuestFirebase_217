@@ -11,6 +11,7 @@ firebase-bom = "33.5.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+billing = "1.1.0"
 
 [libraries]
 # Gunakan penamaan sederhana tanpa tanda hubung yang membingungkan Gradle
@@ -34,6 +35,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+billing = { group = "com.google.androidbrowserhelper", name = "billing", version.ref = "billing" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

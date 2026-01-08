@@ -52,6 +52,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.analytics)
+    implementation(libs.billing)
 
     // Testing
     testImplementation(libs.junit)
