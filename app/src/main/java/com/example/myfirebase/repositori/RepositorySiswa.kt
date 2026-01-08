@@ -34,6 +34,7 @@ class FirebaseRepositorySiswa : RepositorySiswa {
             emptyList() // Jika error, dia akan return list kosong
         }
     }
+
     override suspend fun postDataSiswa(siswa: Siswa) {
         try {
             val data = hashMapOf(
@@ -42,9 +43,10 @@ class FirebaseRepositorySiswa : RepositorySiswa {
                 "telpon" to siswa.telpon
             )
             collection.add(data).await()
-        } catch (e: Exception) { throw e }
+        } catch (e: Exception) {
+            throw e
+        }
     }
-
     override suspend fun getSiswaById(id: String): Siswa {
         return try {
             val document = collection.document(id).get().await()
@@ -54,21 +56,9 @@ class FirebaseRepositorySiswa : RepositorySiswa {
                 alamat = document.getString("alamat") ?: "",
                 telpon = document.getString("telpon") ?: ""
             )
-        } catch (e: Exception) { Siswa(id = "", nama = "", alamat = "", telpon = "") }
+        } catch (e: Exception) {
+            Siswa(id = "", nama = "", alamat = "", telpon = "")
+        }
     }
 
-    override suspend fun deleteSiswa(id: String) {
-        try { collection.document(id).delete().await() } catch (e: Exception) { throw e }
-    }
-
-    override suspend fun updateSiswa(id: String, siswa: Siswa) {
-        try {
-            val dataUpdate = hashMapOf(
-                "nama" to siswa.nama,
-                "alamat" to siswa.alamat,
-                "telpon" to siswa.telpon
-            )
-            collection.document(id).update(dataUpdate as Map<String, Any>).await()
-        } catch (e: Exception) { throw e }
-    }
 }
