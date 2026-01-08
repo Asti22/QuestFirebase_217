@@ -28,6 +28,8 @@ class DetailViewModel(
             uiStateDetailSiswa = uiStateDetailSiswa.copy(detailSiswa = siswa.toDetailSiswa())
         }
     }
+    suspend fun deleteSiswa() { repositorySiswa.deleteSiswa(itemId) }
+}
 
 
 
