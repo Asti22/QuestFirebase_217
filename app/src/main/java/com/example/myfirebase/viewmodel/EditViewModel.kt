@@ -11,7 +11,6 @@ import com.example.myfirebase.modeldata.UIStateSiswa
 import com.example.myfirebase.modeldata.toDataSiswa
 import com.example.myfirebase.modeldata.toDetailSiswa
 import com.example.myfirebase.repositori.RepositorySiswa
-import com.example.myfirebase.view.route.DestinasiEdit
 import kotlinx.coroutines.launch
 
 class EditViewModel(
