@@ -13,14 +13,12 @@ interface RepositorySiswa {
     suspend fun updateSiswa(id: String, siswa: Siswa)
 }
 
-// IMPLEMENTASI
 class FirebaseRepositorySiswa : RepositorySiswa {
     private val db = FirebaseFirestore.getInstance()
     private val collection = db.collection("Siswa")
 
     override suspend fun getDataSiswa(): List<Siswa> {
         return try {
-            // Harus sama dengan nama koleksi di Firebase (misal: "Siswa")
             val snapshot = db.collection("Siswa").get().await()
             snapshot.documents.map { doc ->
                 Siswa(
@@ -31,7 +29,7 @@ class FirebaseRepositorySiswa : RepositorySiswa {
                 )
             }
         } catch (e: Exception) {
-            emptyList() // Jika error, dia akan return list kosong
+            emptyList()
         }
     }
 
@@ -63,7 +61,14 @@ class FirebaseRepositorySiswa : RepositorySiswa {
     override suspend fun deleteSiswa(id: String) {
         try { collection.document(id).delete().await() } catch (e: Exception) { throw e }
     }
-
-
-
+    override suspend fun updateSiswa(id: String, siswa: Siswa) {
+        try {
+            val dataUpdate = hashMapOf(
+                "nama" to siswa.nama,
+                "alamat" to siswa.alamat,
+                "telpon" to siswa.telpon
+            )
+            collection.document(id).update(dataUpdate as Map<String, Any>).await()
+        } catch (e: Exception) { throw e }
+    }
 }
