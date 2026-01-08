@@ -60,5 +60,10 @@ class FirebaseRepositorySiswa : RepositorySiswa {
             Siswa(id = "", nama = "", alamat = "", telpon = "")
         }
     }
+    override suspend fun deleteSiswa(id: String) {
+        try { collection.document(id).delete().await() } catch (e: Exception) { throw e }
+    }
+
+
 
 }
