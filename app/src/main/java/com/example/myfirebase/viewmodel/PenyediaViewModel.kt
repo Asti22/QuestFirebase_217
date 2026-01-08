@@ -29,8 +29,10 @@ object PenyediaViewModel {
         initializer {
             EntryViewModel(siswaApplication().container.repositorySiswa)
         }
+        initializer { EditViewModel(savedStateHandle = this.createSavedStateHandle(),
+            repositorySiswa = siswaApplication().container.repositorySiswa) }
 
-        // Initializer untuk DetailViewModel
+        //
         initializer {
             DetailViewModel(
                 savedStateHandle = this.createSavedStateHandle(),
@@ -38,12 +40,5 @@ object PenyediaViewModel {
             )
         }
 
-        // Initializer untuk EditViewModel
-        initializer {
-            EditViewModel(
-                savedStateHandle = this.createSavedStateHandle(),
-                repositorySiswa = siswaApplication().container.repositorySiswa
-            )
-        }
     }
 }
