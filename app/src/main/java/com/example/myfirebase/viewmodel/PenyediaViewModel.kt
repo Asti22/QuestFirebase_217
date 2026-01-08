@@ -32,13 +32,8 @@ object PenyediaViewModel {
         initializer { EditViewModel(savedStateHandle = this.createSavedStateHandle(),
             repositorySiswa = siswaApplication().container.repositorySiswa) }
 
-        //
-        initializer {
-            DetailViewModel(
-                savedStateHandle = this.createSavedStateHandle(),
-                repositorySiswa = siswaApplication().container.repositorySiswa
-            )
-        }
+        initializer { DetailViewModel(savedStateHandle = this.createSavedStateHandle(),
+            repositorySiswa = siswaApplication().container.repositorySiswa) }
 
     }
 }
